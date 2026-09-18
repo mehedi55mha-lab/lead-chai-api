@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lead Chai — Google Maps Lead Finder</title>
+  <meta name="description" content="Find local business leads on Google Maps, enrich emails from their websites, and export CSV. API + Chrome extension." />
+  <meta property="og:title" content="Lead Chai — Google Maps Lead Finder" />
+  <meta property="og:description" content="Scan Google Maps. Pull phone, website, email. Export CSV." />
+  <meta property="og:image" content="/og.jpg" />
+  <link rel="icon" href="/og.jpg" />
+  <style>
+    :root {
+      --bg: #120e0b;
+      --bg2: #1b1510;
+      --panel: #221b15;
+      --line: rgba(232, 184, 109, 0.16);
+      --chai: #c45c26;
+      --chai2: #e07a3d;
+      --gold: #e8b86d;
+      --cream: #f6efe4;
+      --muted: #b9a594;
+      --ok: #3f8f66;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--cream); font-family: "Segoe UI", "Trebuchet MS", system-ui, sans-serif; }
+    body { min-height: 100vh; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .02em; }
+    .mark {
+      width: 38px; height: 38px; border-radius: 10px; background: var(--chai);
+      display: grid; place-items: center; font-size: 20px;
+    }
+    nav { display: flex; gap: 18px; color: var(--muted); font-size: 14px; }
+    .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding: 72px 0 40px; }
+    h1 { font-size: clamp(36px, 5vw, 62px); line-height: 1.05; letter-spacing: -0.03em; }
+    h1 span { color: var(--gold); }
+    .lede { margin-top: 18px; color: var(--muted); font-size: 18px; line-height: 1.6; max-width: 540px; }
+    .bn { margin-top: 10px; color: #d7c4ae; font-size: 15px; }
+    .cta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(180deg, var(--chai2), var(--chai));
+      color: white; border: 0; border-radius: 999px; padding: 12px 18px;
+      font-weight: 650; cursor: pointer; text-decoration: none;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.05); }
+    .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--cream); }
+    .hero-card {
+      border: 1px solid var(--line); border-radius: 24px; overflow: hidden;
+      background: var(--panel); box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+    .hero-card img { width: 100%; height: 320px; object-fit: cover; display: block; }
+    .hero-card .cap { padding: 16px 18px; color: var(--muted); font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px 0 60px; }
+    .card { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+    .card h3 { font-size: 18px; margin-bottom: 8px; }
+    .card p { color: var(--muted); line-height: 1.6; font-size: 14px; }
+    .step { width: 28px; height: 28px; border-radius: 50%; background: var(--chai); display: grid; place-items: center; font-size: 13px; margin-bottom: 12px; }
+    section { padding: 10px 0 50px; }
+    h2 { font-size: 28px; margin-bottom: 14px; }
+    pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    pre {
+      background: #0c0a08; border: 1px solid var(--line); border-radius: 14px;
+      padding: 16px; overflow: auto; color: #f0d9b8; font-size: 13px; line-height: 1.55;
+    }
+    ol { padding-left: 20px; color: var(--muted); line-height: 1.8; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0 50px; color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 860px) {
+      .hero, .grid, .two { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="mark">☕</div> Lead Chai</div>
+      <nav>
+        <a href="#install">Extension</a>
+        <a href="#deploy">Vercel</a>
+        <a href="/docs">API Docs</a>
+        <a href="/health">Health</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div>
+        <h1>Google Maps theke<br /><span>lead khuje ber koro.</span></h1>
+        <p class="lede">Search any niche on Google Maps. Lead Chai pulls business name, phone, website, address and rating — then your API finds emails from their website.</p>
+        <p class="bn">Google Maps → Scan → Email enrich → CSV export.</p>
+        <div class="cta">
+          <a class="btn" href="#install">Install Chrome extension</a>
+          <a class="btn ghost" href="/docs">Open API docs</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="/og.jpg" alt="Lead Chai — chai cup and a map of local leads" />
+        <div class="cap">Local leads, served hot. Name, phone, website, email, socials.</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="step">1</div>
+        <h3>Search on Maps</h3>
+        <p>Open Google Maps and search like <em>dentists in Dhaka</em> or <em>plumbers in Brooklyn</em>.</p>
+      </div>
+      <div class="card">
+        <div class="step">2</div>
+        <h3>Scan + enrich</h3>
+        <p>The extension reads the results list, opens each place for phone &amp; website, then calls this API for emails.</p>
+      </div>
+      <div class="card">
+        <div class="step">3</div>
+        <h3>Export CSV</h3>
+        <p>Download a clean spreadsheet and drop it into your outreach sheet, CRM, or WhatsApp campaign.</p>
+      </div>
+    </div>
+
+    <section id="deploy">
+      <h2>Host this API on Vercel</h2>
+      <div class="two">
+        <div class="card">
+          <h3>1. Import the GitHub repo</h3>
+          <p>Vercel Dashboard → Add New → Project → import <code>lead-chai-api</code>. Framework preset should detect FastAPI from <code>main.py</code>.</p>
+        </div>
+        <div class="card">
+          <h3>2. Set the API key</h3>
+          <p>Project Settings → Environment Variables:</p>
+          <pre>LEAD_CHAI_API_KEY=lc_live_your_secret_key_here</pre>
+        </div>
+      </div>
+      <p style="margin:16px 0 10px;color:var(--muted)">Or deploy from the CLI:</p>
+      <pre>npm i -g vercel
+vercel login
+vercel --prod</pre>
+      <p style="margin-top:12px;color:var(--muted)">After deploy, your API URL looks like <code>https://lead-chai-api.vercel.app</code>. Paste that URL into the extension settings.</p>
+    </section>
+
+    <section id="install">
+      <h2>Load the Chrome extension</h2>
+      <ol>
+        <li>Download this repo (or <a href="/lead-chai-extension.zip">lead-chai-extension.zip</a>) and unzip it.</li>
+        <li>Chrome-e jaw: <code>chrome://extensions</code></li>
+        <li>Turn on <strong>Developer mode</strong> (top right).</li>
+        <li>Click <strong>Load unpacked</strong> and select the <code>extension</code> folder.</li>
+        <li>Google Maps khule search dao. Right side-e Lead Chai panel asbe.</li>
+        <li>Settings-e Vercel API URL + API key boshao, then <strong>Scan leads</strong>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>API</h2>
+      <pre>POST /enrich
+{
+  "api_key": "lc_live_your_secret_key_here",
+  "website": "https://cleanersgrowth.com",
+  "business_name": "Cleaners Growth",
+  "mode": "quick"
+}</pre>
+      <p style="margin-top:12px;color:var(--muted)">Also: <code>GET /health</code> · <code>POST /bulk-enrich</code> · interactive docs at <a href="/docs">/docs</a>.</p>
+    </section>
+
+    <footer>
+      <div>Lead Chai API · FastAPI on Vercel</div>
+      <div>Use publicly available business data only. Respect Google’s terms and local laws.</div>
+    </footer>
+  </div>
+</body>
+</html>

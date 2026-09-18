@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <img src="icons/icon48.png" alt="" width="36" height="36" />
+    <div>
+      <strong>Lead Chai</strong>
+      <p>Google Maps lead finder</p>
+    </div>
+  </header>
+  <div id="status" class="status">Checking tab…</div>
+  <button id="primary" type="button">Open Google Maps</button>
+  <div class="row">
+    <label>API URL</label>
+    <input id="apiUrl" type="url" placeholder="https://your-app.vercel.app" />
+  </div>
+  <div class="row">
+    <label>API key</label>
+    <input id="apiKey" type="password" placeholder="lc_live_…" />
+  </div>
+  <button id="save" class="ghost" type="button">Save settings</button>
+  <p class="hint">Maps-e search dao, then Scan leads. Email er jonno Vercel API URL lagbe.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
